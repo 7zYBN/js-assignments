@@ -26,6 +26,8 @@
  *
  */
 function getComposition(f,g) {
+    const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
+    return compose(f,g);
     throw new Error('Not implemented');
 }
 
@@ -47,6 +49,9 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
+    return function (x) {
+        return Math.pow(x, exponent)
+    }
     throw new Error('Not implemented');
 }
 
@@ -65,6 +70,11 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
+    return (x) => {
+        return arguments.length
+            ? [...arguments].reduce((polynom, coefficient, index) => polynom + coefficient * (x ** (arguments.length - index - 1)), 0)
+            : null;
+    }
     throw new Error('Not implemented');
 }
 
@@ -84,6 +94,15 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
+    const cached = [];
+    return function (a) {
+        if (cached.some(item => item.a === a)) {
+            return cached.find(item => item.a === a).result;
+        }
+        const result = func(a);
+        cached.push({a, result});
+        return result;
+    }
     throw new Error('Not implemented');
 }
 
@@ -104,6 +123,16 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
+    return function some () {
+        try {
+            return func();
+        } catch (error) {
+            if (--attempts) {
+                return some();
+            }
+            throw error;
+        }
+    }
     throw new Error('Not implemented');
 }
 
@@ -132,6 +161,12 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
+    // return function () {
+    //     logFunc(`${func.name}(${[...arguments.callee]}) starts`)
+    //     const result = func(...arguments);
+    //     logFunc(`${func.name}(${[...arguments]}) ends`)
+    //     return result;
+    // }
     throw new Error('Not implemented');
 }
 
