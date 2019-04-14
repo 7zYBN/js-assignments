@@ -580,31 +580,42 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    // function getColumn(matrix, j) {
-    //     return matrix.map(matrixRow => matrixRow[j]);
-    // }
+    function getColumn(matrix, j) {
+        return matrix.map(matrixRow => matrixRow[j]);
+    }
 
-    // function getDiagonal(matrix) {
-    //     let result = [];
-    //     for (let i = 0; i < matrix.length; i++) {
-    //         result.push(matrix[i][i]);
-    //     }
-    //     return result;
-    // }
+    function getDiagonal(matrix) {
+        let result = [];
+        for (let i = 0; i < matrix.length; i++) {
+            result.push(matrix[i][i]);
+        }
+        return result;
+    }
 
-    // for (let index = 0; index < position.length; index++) {
-    //     let row = position[index];
-    //     let column = getColumn(position, index);
-    //     let diagonal = getDiagonal(position);
-    //     if (row.every(item => item === row[0])) {
-    //       return row[0];
-    //     } else if (column.every(item => item === column[0])) {
-    //       return column[0];
-    //     } else if (diagonal.every(item => item === diagonal[0])) {
-    //       return diagonal[0];
-    //     }
-    //   }
-    // return undefined;
+    function getDiagonal2(matrix) {
+        let result = [];
+        for (let i = 0; i < matrix.length; i++) {
+            result.push(matrix[matrix.length - i - 1][i]);
+        }
+        return result;
+    }
+
+    for (let index = 0; index < position.length; index++) {
+        let row = position[index];
+        let column = getColumn(position, index);
+        let diagonal = getDiagonal(position);
+        let diagonal2 = getDiagonal2(position);
+        if (row.filter(item => item === row[0]).length ===3) {
+          return row[0];
+        } else if (column.filter(item => item === column[0]).length ===3) {
+          return column[0];
+        } else if (diagonal.filter(item => item === diagonal[0]).length ===3) {
+          return diagonal[0];
+        } else if (diagonal2.filter(item => item === diagonal2[0]).length ===3) {
+            return diagonal2[0];
+          }
+      }
+    return undefined;
     throw new Error('Not implemented');
 }
 
